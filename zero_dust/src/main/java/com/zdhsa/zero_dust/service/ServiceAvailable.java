@@ -10,6 +10,5 @@ public interface ServiceAvailable {
     ServiceEntity getServiceByName(String serviceName);
     ServiceEntity save(ServiceEntity service);
     ServiceEntity update(ServiceEntity service);
-
     Boolean deleteServiceById(Long id);
 }

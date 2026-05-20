@@ -3,8 +3,10 @@ package com.zdhsa.zero_dust.service;
 import com.zdhsa.zero_dust.entity.ServiceEntity;
 import com.zdhsa.zero_dust.repository.ServiceAvailableRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @Service
@@ -41,11 +43,16 @@ public class ServiceAvailableServiceImpl implements ServiceAvailable {
     @Override
     public Boolean deleteServiceById(Long id) {
         try {
-            // validation
-            //First gey entity for that id if exist only then call delete operation
-            //else trow exception
-            serviceAvailable.deleteById(id);
-            return true;
+           ServiceEntity s = serviceAvailable.getServiceEntityById(id);
+           if(s.getId()!=null) {
+               serviceAvailable.deleteById(id);
+               return true;
+           }
+           else
+           {
+               System.out.println("Entity trying to delete does not exist");
+               return false;
+           }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
